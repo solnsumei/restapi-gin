@@ -18,10 +18,18 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"data": "Hello Book API"})
 	})
 
+	// Create router group
 	booksRouter := router.Group("/books")
 	{
 		booksRouter.GET("/", controllers.FindBooks)
+		booksRouter.POST("/", controllers.CreateBook)
+		booksRouter.GET("/:id", controllers.FindBook)
+		booksRouter.PATCH("/:id", controllers.UpdateBook)
+		booksRouter.DELETE("/:id", controllers.DeleteBook)
 	}
 
-	router.Run("localhost:3000")
+	err := router.Run("localhost:3000")
+	if err != nil {
+		return
+	}
 }
